@@ -1,0 +1,154 @@
+﻿Build1=Default,b4a.example
+File1=Layout.bal
+FileGroup1=Default Group
+Group=Default Group
+Library1=core
+Library2=xui
+Library3=xui views
+ManifestCode='This code will be applied to the manifest file during compilation.~\n~'You do not need to modify it in most cases.~\n~'See this link for for more information: https://www.b4x.com/forum/showthread.php?p=78136~\n~AddManifestText(~\n~<uses-sdk android:minSdkVersion="14" android:targetSdkVersion="30"/>~\n~<supports-screens android:largeScreens="true" ~\n~    android:normalScreens="true" ~\n~    android:smallScreens="true" ~\n~    android:anyDensity="true"/>)~\n~SetApplicationAttribute(android:icon, "@drawable/icon")~\n~SetApplicationAttribute(android:label, "$LABEL$")~\n~CreateResourceFromFile(Macro, Themes.LightTheme)~\n~'End of default text.~\n~
+Module1=Starter
+NumberOfFiles=1
+NumberOfLibraries=3
+NumberOfModules=1
+Version=11.5
+@EndOfDesignText@
+#Region  Project Attributes 
+	#ApplicationLabel: Calculator
+	#VersionCode: 1
+	#VersionName: 
+	'SupportedOrientations possible values: unspecified, landscape or portrait.
+	#SupportedOrientations: unspecified
+	#CanInstallToExternalStorage: False
+#End Region
+
+'Christian Paranas BSIT 3E'
+
+#Region  Activity Attributes 
+	#FullScreen: False
+	#IncludeTitle: True
+#End Region
+
+Sub Process_Globals
+	'These global variables will be declared once when the application starts.
+	'These variables can be accessed from all modules.
+	Private xui As XUI
+End Sub
+
+Sub Globals
+	'These global variables will be redeclared each time the activity is created.
+	Private EditText1 As EditText
+	
+	Private clearbtn As Button
+	Private delbtn As Button
+	
+	Private dividebtn As Button
+	Private timesbtn As Button
+	Private minusbtn As Button
+	Private plusbtn As Button
+	Private percentbtn As Button
+	Private periodbtn As Button
+	Private plusminusbtn As Button
+	
+	Private eightbtn As Button
+	Private equalbtn As Button
+	Private fivebtn As Button
+	Private fourbtn As Button
+	Private ninebtn As Button
+	Private onebtn As Button
+	Private sevenbtn As Button
+	Private sixbtn As Button
+	Private threebtn As Button
+	Private twobtn As Button
+	Private zerobtn As Button
+	
+	Dim operand1, operand2 As Float
+	Dim addition, subtraction, multiplication, division, hasOp As Boolean
+End Sub
+
+Sub Activity_Create(FirstTime As Boolean)
+	Activity.LoadLayout("Layout")
+End Sub
+
+
+Private Sub btn_Click
+	Dim button As Button = Sender
+	
+	If button.Tag = "0" Or button.Tag = "1" Or button.Tag = "2" Or button.Tag = "3" Or button.Tag = "4" Or button.Tag = "5" Or button.Tag = "6" Or button.Tag = "7" Or button.Tag = "8" Or button.Tag = "9" Then
+		If hasOp = True Then
+			EditText1.Text = ""
+		End If
+		
+		If EditText1.Text = "" Then
+			hasOp = False
+			EditText1.Text = button.Tag
+		Else
+			EditText1.Text = EditText1.Text & button.Tag
+		End If
+	
+	Else If button.Tag = "+" Or button.Tag = "-" Or button.Tag = "*" Or button.Tag = "/" Then
+		hasOp = True
+		
+		If button.Tag = "+" Then
+			If EditText1.Text = "" Then
+				EditText1.Text = "+"
+			Else
+				operand1 = EditText1.Text
+				addition = True
+				EditText1.Text = "+"
+			End If
+			
+		Else If button.Tag = "-" Then
+			If EditText1.Text = "" Then
+				EditText1.Text = "-"
+			Else
+				operand1 = EditText1.Text
+				subtraction = True
+				EditText1.Text = "-"
+			End If
+			
+		Else If button.Tag = "*" Then
+			If EditText1.Text = "" Then
+				EditText1.Text = "*"
+			Else
+				operand1 = EditText1.Text
+				multiplication = True
+				EditText1.Text = "*"
+			End If
+			
+		Else If button.Tag = "/" Then
+			If EditText1.Text = "" Then
+				EditText1.Text = "/"
+			Else
+				operand1 = EditText1.Text
+				division = True
+				EditText1.Text = "/"
+			End If
+		End If
+		
+	Else If button.Tag = "=" Then
+		operand2 = EditText1.Text
+		
+		If addition = True Then
+			EditText1.Text = operand1 + operand2
+			addition = False
+		Else If subtraction = True Then
+			EditText1.Text = operand1 - operand2
+			subtraction = False
+		Else If multiplication = True Then
+			EditText1.Text = operand1 * operand2
+			multiplication = False
+		Else If division = True Then
+			EditText1.Text = operand1 / operand2
+			division = False
+		End If
+		
+		operand1 = 0
+		operand2 = 0
+		hasOp = False
+		
+	Else If button.Tag = "clear" Then
+		EditText1.Text = ""
+	End If
+	
+	
+End Sub
